@@ -171,8 +171,9 @@ class _SongsTabState extends State<SongsTab> {
   @override
   Widget build(context) {
     return PlatformWidget(
-      androidBuilder: _buildAndroid,
-      iosBuilder: _buildIos,
+        androidBuilder: _buildAndroid,
+        iosBuilder: _buildIos,
+        macosBuilder: _buildIos
     );
   }
 }

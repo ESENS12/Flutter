@@ -12,10 +12,12 @@ class PlatformWidget extends StatelessWidget {
     Key? key,
     required this.androidBuilder,
     required this.iosBuilder,
+    required this.macosBuilder,
   }) : super(key: key);
 
   final WidgetBuilder androidBuilder;
   final WidgetBuilder iosBuilder;
+  final WidgetBuilder macosBuilder;
 
   @override
   Widget build(context) {
@@ -24,6 +26,8 @@ class PlatformWidget extends StatelessWidget {
         return androidBuilder(context);
       case TargetPlatform.iOS:
         return iosBuilder(context);
+      case TargetPlatform.macOS:
+        return macosBuilder(context);
       default:
         assert(false, 'Unexpected platform $defaultTargetPlatform');
         return const SizedBox.shrink();

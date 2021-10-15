@@ -10,6 +10,7 @@ import 'profile_tab.dart';
 import 'settings_tab.dart';
 import 'songs_tab.dart';
 import 'widgets.dart';
+import 'upload_page.dart';
 
 void main() => runApp(MyAdaptingApp());
 
@@ -60,6 +61,7 @@ class _PlatformAdaptingHomePageState extends State<PlatformAdaptingHomePage> {
   //
   // This isn't needed for apps that doesn't toggle platforms while running.
   final songsTabKey = GlobalKey();
+  final uploadPageKey = GlobalKey();
 
   // In Material, this app uses the hamburger menu paradigm and flatly lists
   // all 4 possible tabs. This drawer is injected into the songs tab which is
@@ -95,6 +97,10 @@ class _PlatformAdaptingHomePageState extends State<PlatformAdaptingHomePage> {
             label: ProfileTab.title,
             icon: ProfileTab.iosIcon,
           ),
+          BottomNavigationBarItem(
+            label: UploadPage.title,
+            icon: UploadPage.iosIcon,
+          ),
         ],
       ),
       tabBuilder: (context, index) {
@@ -114,6 +120,11 @@ class _PlatformAdaptingHomePageState extends State<PlatformAdaptingHomePage> {
               defaultTitle: ProfileTab.title,
               builder: (context) => ProfileTab(),
             );
+          case 3:
+            return CupertinoTabView(
+              defaultTitle: UploadPage.title,
+              builder: (context) => UploadPage(key:uploadPageKey,url:"http://192.168.50.61:8082/fatos/api/upload_test"),
+            );
           default:
             assert(false, 'Unexpected tab');
             return const SizedBox.shrink();
@@ -127,11 +138,13 @@ class _PlatformAdaptingHomePageState extends State<PlatformAdaptingHomePage> {
     return PlatformWidget(
       androidBuilder: _buildAndroidHomePage,
       iosBuilder: _buildIosHomePage,
+      macosBuilder: _buildIosHomePage
     );
   }
 }
 
 class _AndroidDrawer extends StatelessWidget {
+  final uploadPageKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -172,6 +185,15 @@ class _AndroidDrawer extends StatelessWidget {
               Navigator.pop(context);
               Navigator.push<void>(context,
                   MaterialPageRoute(builder: (context) => ProfileTab()));
+            },
+          ),
+          ListTile(
+            leading: UploadPage.androidIcon,
+            title: const Text(UploadPage.title),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push<void>(context,
+                  MaterialPageRoute(builder: (context) => UploadPage(key:uploadPageKey,url:"http://192.168.50.61:8082/fatos/api/upload_test")));
             },
           ),
           // Long drawer contents are often segmented.

@@ -119,6 +119,7 @@ class _NewsTabState extends State<NewsTab> {
     return PlatformWidget(
       androidBuilder: _buildAndroid,
       iosBuilder: _buildIos,
+      macosBuilder: _buildIos
     );
   }
 }
