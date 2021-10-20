@@ -1,5 +1,6 @@
 import 'package:easy_web_view/easy_web_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String src = 'https://maps.fatos.biz/fatos.html';
   String src2 = 'https://flutter.dev/community';
   String src3 = 'http://www.youtube.com/embed/IyFZznAk69U';
+  String htmlFilePath = 'assets/SampleMap.html';
   static ValueKey key = ValueKey('key_0');
   static ValueKey key2 = ValueKey('key_1');
   static ValueKey key3 = ValueKey('key_2');
@@ -25,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Easy Web View'),
@@ -33,7 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               setState(() {
                 print("Click!");
-                open = !open;
+                loadLocalHTML() async{
+                  String fileHtmlContents = await rootBundle.loadString(htmlFilePath);
+                  print("html : " + fileHtmlContents);
+                }
+                loadLocalHTML();
+                // open = !open;
               });
             },
 
@@ -58,19 +66,23 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: <Widget>[
               SwitchListTile(
-                title: Text('Html Content'),
+                title: const Text('Html Content'),
                 value: _isHtml,
                 onChanged: (val) {
-                  if (mounted)
+                  if (mounted) {
                     setState(() {
                       _isHtml = val;
                       if (val) {
                         _isMarkdown = false;
-                        src = htmlContent;
+                        loadLocalHTML() async{
+                          src = await rootBundle.loadString(htmlFilePath);
+                        }
+                        loadLocalHTML();
                       } else {
                         src = url;
                       }
                     });
+                  }
                 },
               ),
               SwitchListTile(
@@ -155,8 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       convertToWidgets: _useWidgets,
                       key: key,
                       widgetsTextSelectable: _isSelectable,
-                      width: 1080,
-                      height: 720,
+                      // width: 1080,
+                      // height: 720,
                     )),
               ],
             ),
