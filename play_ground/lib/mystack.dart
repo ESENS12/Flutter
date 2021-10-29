@@ -1,5 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:html';
+import 'package:flutter/material.dart';
+import 'package:play_ground/iframe.dart';
+import 'alert_dialog.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
+
 
 class myStack extends StatefulWidget {
   myStack({Key? key}) : super(key: key);
@@ -30,6 +36,40 @@ class _myStackState extends State<myStack> with SingleTickerProviderStateMixin{
         setState(() {
           _bIsShowSubContent = !_bIsShowSubContent;
         });
+
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext dialogContext) {
+        //     return MyAlertDialog(title: 'Title', content: 'Dialog content');
+        //   },
+        // );
+
+        // showDialog(
+        //     context: context,
+        //     builder: (_) {
+        //       return AlertDialog(
+        //         title: Text('Wanna Exit?'),
+        //         actions: [
+        //           TextButton(
+        //             onPressed: () => Navigator.pop(context, false), // passing false
+        //             child: Text('No'),
+        //           ),
+        //           TextButton(
+        //             onPressed: () => Navigator.pop(context, true), // passing true
+        //             child: Text('Yes'),
+        //           ),
+        //         ],
+        //       );
+        //     }).then((exit) {
+        //   if (exit == null) return;
+        //
+        //   if (exit) {
+        //     // user pressed Yes button
+        //   } else {
+        //     // user pressed No button
+        //   }
+        // });
+
       }
     });
   }
@@ -61,15 +101,19 @@ class _myStackState extends State<myStack> with SingleTickerProviderStateMixin{
                 height: MediaQuery.of(context).size.height,
                 left: MediaQuery.of(context).size.width * .05,
                 width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width * .05,
-                child: GestureDetector(
+                child: PointerInterceptor(
+                  child : GestureDetector(
                     onTap: (){
                       print("onTap content [center] ");
                     },
                     child: Container(
-                    child: const Center(
-                      child: Text('Content # center(lower level)'),
-                    ),
+                      // child: const Center(
+                      //   child: Text('Content # center(lower level)'),
+                      // ),
+                      child: Iframe(),
+
                     color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -78,16 +122,18 @@ class _myStackState extends State<myStack> with SingleTickerProviderStateMixin{
                 left: 0,
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width * .05,
-                child : GestureDetector(
-                  onTap: (){
-                    print("onTap content[mid]");
-                  },
-                  child: Container(
-                  child: const Center(
-                    child: Text('Content # 2 [mid]'),
-                  ),
-                    color: Colors.blueAccent,
-                  ),
+                child : PointerInterceptor(
+                  child : GestureDetector(
+                    onTap: (){
+                      print("onTap #2 [mid] ");
+                    },
+                    child: Container(
+                      child: const Center(
+                        child: Text('Content # 2 [mid]'),
+                      ),
+                      color: Colors.blueAccent,
+                    ),
+                  )
                 ),
               ),
               Positioned(
@@ -95,18 +141,21 @@ class _myStackState extends State<myStack> with SingleTickerProviderStateMixin{
                 height: MediaQuery.of(context).size.height,
                 left: MediaQuery.of(context).size.width * .05,
                 width: MediaQuery.of(context).size.width * .20,
-                child: GestureDetector(
-                  onTap: (){
-                    print("onTap content[top]");
-                  },
-                  child: Visibility(
-                    child: Container(
-                      child: const Center(
-                        child: Text('Content [TOP]'),
+                child:
+                  PointerInterceptor(
+                    child : GestureDetector(
+                    onTap: (){
+                      print("onTap content[top]");
+                    },
+                    child: Visibility(
+                      child: Container(
+                        child: const Center(
+                          child: Text('Content [TOP]'),
+                        ),
+                        color: Colors.greenAccent,
                       ),
-                      color: Colors.greenAccent,
+                      visible: _bIsShowSubContent,
                     ),
-                    visible: _bIsShowSubContent,
                   ),
                 ),
               ),
