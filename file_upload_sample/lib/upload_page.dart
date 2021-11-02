@@ -57,7 +57,8 @@ class _UploadPageState extends State<UploadPage> {
             String encoded_str = base64.encode(utf8.encode(plane_str));
             // print("encoded_str : "  + encoded_str);
 
-            var request = http.MultipartRequest('POST', Uri.parse(widget.url));
+            // var res = await uploadImage(encoded_str, widget.url);
+            var request = http.MultipartRequest('POST', Uri.parse('http://192.168.50.61:8082/fatos/api/upload_test'));
             var pick_file = await http.MultipartFile.fromBytes('userfile', bytes, filename: result.files.single.name);
 
             print("file size : " + pick_file.length.toString());

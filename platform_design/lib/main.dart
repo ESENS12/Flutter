@@ -193,7 +193,8 @@ class _AndroidDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.push<void>(context,
-                  MaterialPageRoute(builder: (context) => UploadPage(key:uploadPageKey,url:"http://192.168.50.61:8082/fatos/api/upload_test")));
+                  MaterialPageRoute(builder: (context) => UploadPage(key:uploadPageKey,
+                      url:"http://192.168.50.61:8082/fatos/api/upload_test")));
             },
           ),
           // Long drawer contents are often segmented.
