@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://maps.fatos.biz/dist/favicon_nostra.png">
+    <title>NOSTRA Map</title>
+</head>
+<body>
+<div style="height: 100vh;">
+    <div id="app"></div>
+</div>
+
+<script src="https://maps.fatos.biz/dist/fatosmap-gl.js">
+</script>
+<script>
+    let LatLng = {lat: 13.703112, lng: 100.543553}
+    const mapInstances = new fatosmap.maps.Map(
+        document.getElementById("app"),
+        {
+            zoom: 15,
+            center: LatLng,
+            maxZoom: 20,
+            minZoom: 2,
+            scrollwheel: true,
+            scaleControl: true,
+            fullscreenControl: true,
+            zoomControl: false,
+            draggable: true,
+            rotateControl: true,
+            key: 'O0LdeCyykh6bODWH4y9BgeNnfSDi3-5a16BKFiUSc4E',
+            service_id:1
+        }
+    )
+
+    mapInstances.on('load',function(){
+
+
+    })
+
+    function SayHello(){
+        console.log("hello this is from nostramap");
+    }
+    function AddOrders(){
+        mapInstances.addSource('line_geoms', {type: 'geojson',
+            data: {"type":"LineString","coordinates":[[122.214,37.772,0],[-157.821,21.291,0],[178.431,-18.142,0],[153.027,-27.467,0]]}});
+
+        // console.log('Source', this.map.getSource('trafficSource'));
+        mapInstances.addLayer({
+            id: 'line_geomLayer',
+            type: 'line',
+            source: 'line_geoms',
+            layout: {
+                'line-join': 'round',
+                'line-cap': 'round',
+            },
+            paint: {
+                'line-color': '#1fac36',
+                'line-width': 3,
+            },
+        });
+    }
+
+</script>
+<style>
+   
+</style>
+</body>
+</html>
+

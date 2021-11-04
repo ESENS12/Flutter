@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:webviewx/webviewx.dart';
 
-import 'helpers.dart';
-
 class WebViewXPage extends StatefulWidget {
   const WebViewXPage({
     Key? key,
@@ -22,7 +20,6 @@ class _WebViewXPageState extends State<WebViewXPage> {
       'Failed to execute this task because the current content is (probably) URL that allows iframe embedding, on Web.\n\n'
       'A short reason for this is that, when a normal URL is embedded in the iframe, you do not actually own that content so you cant call your custom functions\n'
       '(read the documentation to find out why).';
-
 
   Size get screenSize => MediaQuery.of(context).size;
 
@@ -79,21 +76,26 @@ class _WebViewXPageState extends State<WebViewXPage> {
   Widget _buildWebViewX() {
     return WebViewX(
       key: const ValueKey('webviewx'),
-      initialContent: 'nostramap.html',
+      initialContent: initialContent,
       initialSourceType: SourceType.html,
       height: screenSize.height / 2,
       width: min(screenSize.width * 0.8, 1024),
-      onWebViewCreated: (controller) => {
-        webviewController = controller,
-        webviewController.loadContent(
-          'nostramap.html', SourceType.html, fromAssets: true,
+      onWebViewCreated: (controller) => webviewController = controller,
+      onPageStarted: (src) =>
+          debugPrint('A new page has started loading: $src\n'),
+      onPageFinished: (src) =>
+          debugPrint('The page has finished loading: $src\n'),
+      jsContent: const {
+        EmbeddedJsContent(
+          js: "function testPlatformIndependentMethod() { console.log('Hi from JS') }",
+        ),
+        EmbeddedJsContent(
+          webJs:
+          "function testPlatformSpecificMethod(msg) { TestDartCallback('Web callback says: ' + msg) }",
+          mobileJs:
+          "function testPlatformSpecificMethod(msg) { TestDartCallback.postMessage('Mobile callback says: ' + msg) }",
         ),
       },
-      // onPageStarted: (src) =>
-      //     debugPrint('A new page has started loading: $src\n'),
-      // onPageFinished: (src) =>
-      //     debugPrint('The page has finished loading: $src\n'),
-
       dartCallBacks: {
         DartCallback(
           name: 'TestDartCallback',
@@ -115,8 +117,15 @@ class _WebViewXPageState extends State<WebViewXPage> {
 
   void _setUrl() {
     webviewController.loadContent(
-      'https://maps.fatos.biz/nostramap.html',
+      'https://flutter.dev',
       SourceType.url,
+    );
+  }
+
+  void _setUrlBypass() {
+    webviewController.loadContent(
+      'https://news.ycombinator.com/',
+      SourceType.urlBypass,
     );
   }
 
@@ -129,7 +138,7 @@ class _WebViewXPageState extends State<WebViewXPage> {
 
   void _setHtmlFromAssets() {
     webviewController.loadContent(
-      'nostramap.html',
+      'assets/test.html',
       SourceType.html,
       fromAssets: true,
     );
@@ -191,9 +200,8 @@ class _WebViewXPageState extends State<WebViewXPage> {
 
   Future<void> _callPlatformSpecificJsMethod() async {
     try {
-      // await webviewController.callJsMethod('testPlatformSpecificMethod', ['Hi']);
-      // await webviewController.callJsMethod('SayHello', []);
-      await webviewController.callJsMethod('AddOrders', []);
+      await webviewController
+          .callJsMethod('testPlatformSpecificMethod', ['Hi']);
     } catch (e) {
       showAlertDialog(
         executeJsErrorMessage,
@@ -218,15 +226,15 @@ class _WebViewXPageState extends State<WebViewXPage> {
   }) {
     return flex
         ? Flexible(
-            child: FractionallySizedBox(
-              widthFactor: direction == Axis.horizontal ? amount : null,
-              heightFactor: direction == Axis.vertical ? amount : null,
-            ),
-          )
+      child: FractionallySizedBox(
+        widthFactor: direction == Axis.horizontal ? amount : null,
+        heightFactor: direction == Axis.vertical ? amount : null,
+      ),
+    )
         : SizedBox(
-            width: direction == Axis.horizontal ? amount : null,
-            height: direction == Axis.vertical ? amount : null,
-          );
+      width: direction == Axis.horizontal ? amount : null,
+      height: direction == Axis.vertical ? amount : null,
+    );
   }
 
   List<Widget> _buildButtons() {
@@ -242,7 +250,24 @@ class _WebViewXPageState extends State<WebViewXPage> {
           Expanded(child: createButton(onTap: _reload, text: 'Reload')),
         ],
       ),
-
+      buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
+      createButton(
+        text:
+        'Change content to URL that allows iframes embedding\n(https://flutter.dev)',
+        onTap: _setUrl,
+      ),
+      buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
+      createButton(
+        text:
+        'Change content to URL that doesnt allow iframes embedding\n(https://news.ycombinator.com/)',
+        onTap: _setUrlBypass,
+      ),
+      buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
+      createButton(
+        text: 'Change content to HTML (hardcoded)',
+        onTap: _setHtml,
+      ),
+      buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
       createButton(
         text: 'Change content to HTML (from assets)',
         onTap: _setHtmlFromAssets,
@@ -265,7 +290,7 @@ class _WebViewXPageState extends State<WebViewXPage> {
       buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
       createButton(
         text:
-            'Call platform specific Js method, that calls back a Dart function',
+        'Call platform specific Js method, that calls back a Dart function',
         onTap: _callPlatformSpecificJsMethod,
       ),
       buildSpace(direction: Axis.vertical, flex: false, amount: 20.0),
