@@ -10,3 +10,6 @@ Flutter Example, Recipe , Study
 - 1. easy-webview 사용 (https://github.com/ESENS12/Flutter/tree/main/flutter_webview_sample)
 - 2. 클라이언트 자체가 web Client이기 때문에 layout을 SizedBox나 Container로 영역만 잡은 뒤 platformViewRegistry를 사용하여 Control 한다. (https://stackoverflow.com/questions/58150503/webview-in-flutter-web)
 - 2번방법을 사용하기 위한 예제 추가 예정.., 최대한 Platform.OS 체크하는 로직 사용해서 WebView Widget에서 각각 필요한 껍데기 위젯을 제공하는 방식으로
+- 위 문제를 해결해줄 flutter webview 패키지가 있었다! [webviewx] (https://pub.dev/packages/webviewx) 
+- Flutter webviewx Sample (https://github.com/ESENS12/Flutter/tree/main/webviewx_example)
+- 
