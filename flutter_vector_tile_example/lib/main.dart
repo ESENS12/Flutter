@@ -1,11 +1,20 @@
-import 'dart:ffi';
 
-import 'package:vector_tile/vector_tile_layer.dart';
-import 'package:vector_tile/vector_tile.dart';
-import 'package:vector_tile/raw/raw_vector_tile.dart' as raw;
+import 'dart:typed_data';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import 'vector_tile_layer.dart';
+import 'vector_tile.dart';
+import 'raw/raw_vector_tile.dart' as raw;
+import 'util/geojson.dart';
+import 'util/geometry.dart';
+import 'util/command.dart';
+import 'package:file_picker/file_picker.dart';
+
 
 void decodeGeoJsonFeatureCollection() async {
-  VectorTile tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
+  VectorTile tile = await VectorTile.fromPath(path: 'data/sample-12-3262-1923.pbf');
 
   GeoJsonFeatureCollection featureCollection = tile.toGeoJson(x: 3262, y: 1923, z: 12);
 
@@ -13,11 +22,8 @@ void decodeGeoJsonFeatureCollection() async {
   print(featureCollection.features.length); // 12049
 }
 
-/// Read & Decode given vector tile file
-/// Decode raw features to GeoJson format
-/// Each GeoJsonType was decode separate
 void decodeForEachGeoJsonType() async {
-  VectorTile tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
+  VectorTile tile = await VectorTile.fromPath(path: 'data/sample-12-3262-1923.pbf');
   VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'poi');
 
   layer.features.forEach((feature) {
@@ -70,7 +76,7 @@ void decodeForEachGeoJsonType() async {
 /// All GeoJsonType was decode one and
 /// Then we must use type cast to read each type specific data
 void decodeForAllGeoJsonType() async {
-  VectorTile tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
+  VectorTile tile = await VectorTile.fromPath(path: 'data/sample-12-3262-1923.pbf');
   VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'poi');
 
   layer.features.forEach((feature) {
@@ -95,44 +101,120 @@ void decodeForAllGeoJsonType() async {
 }
 
 /// Create & Encode a set of vector tile data from raw format
-void encode() async {
-  var i64_v = Int64();
-  i64_v = 65 as Int64 ;
-  var values = [
-    raw.createVectorTileValue(intValue: (65 as Int64)),
-    raw.createVectorTileValue(stringValue: 'basketball'),
-  ];
-
-  var features = [
-    raw.createVectorTileFeature(
-      id: Int64(31162829580),
-      tags: [0, 0, 1, 1],
-      type: raw.VectorTile_GeomType.POINT,
-      geometry: [9, 8058, 1562],
-    ),
-  ];
-
-  var layers = [
-    raw.createVectorTileLayer(
-      name: 'poi',
-      extent: 4096,
-      version: 2,
-      keys: ['render_height', 'name'],
-      values: values,
-      features: features,
-    ),
-  ];
-
-  var tile = raw.createVectorTile(layers: layers);
-
-  // Save to disk
-  await raw.encodeVectorTile(path: '../gen/tile.pbf', tile: tile);
-}
+// void encode() async {
+//   var i64_v = Int64();
+//   i64_v = 65 as Int64 ;
+//   var values = [
+//     raw.createVectorTileValue(intValue: (65 as Int64)),
+//     raw.createVectorTileValue(stringValue: 'basketball'),
+//   ];
+//
+//   var features = [
+//     raw.createVectorTileFeature(
+//       id: Int64(31162829580),
+//       tags: [0, 0, 1, 1],
+//       type: raw.VectorTile_GeomType.POINT,
+//       geometry: [9, 8058, 1562],
+//     ),
+//   ];
+//
+//   var layers = [
+//     raw.createVectorTileLayer(
+//       name: 'poi',
+//       extent: 4096,
+//       version: 2,
+//       keys: ['render_height', 'name'],
+//       values: values,
+//       features: features,
+//     ),
+//   ];
+//
+//   var tile = raw.createVectorTile(layers: layers);
+//
+//   // Save to disk
+//   await raw.encodeVectorTile(path: '../gen/tile.pbf', tile: tile);
+// }
 
 
 main() {
   // encode();
-  decodeForEachGeoJsonType();
-  // decodeForAllGeoJsonType();
+  // decodeForEachGeoJsonType();
+  runApp(MyApp());
   // decodeGeoJsonFeatureCollection();
+}
+
+
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter File Upload Example',
+      home: MvtSample(),
+    );
+  }
+}
+class MvtSample extends StatefulWidget {
+  static const title = 'MvtSample';
+
+  @override
+  _MvtSampleState createState() => _MvtSampleState();
+
+}
+
+
+
+class _MvtSampleState extends State<MvtSample> {
+
+  String state = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter MVT parse Example'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(state)
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          FilePickerResult? result = await FilePicker.platform.pickFiles();
+          if(result != null){
+            Uint8List? bytes =  result.files.single.bytes;
+
+            VectorTile tile = await VectorTile.fromBytes(bytes: bytes!);
+            VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'poi');
+
+            layer.features.forEach((feature) {
+              var geojson = feature.toGeoJson(x: 3262, y: 1923, z: 12);
+
+              if (feature.geometryType == GeometryType.Point) {
+                print((geojson as GeoJsonPoint).type);
+                print((geojson as GeoJsonPoint).properties);
+                print((geojson as GeoJsonPoint).geometry?.type);
+                print((geojson as GeoJsonPoint).geometry?.coordinates);
+              }
+
+              if (feature.geometryType == GeometryType.MultiPoint) {
+                print((geojson as GeoJsonMultiPoint).type);
+                print((geojson as GeoJsonMultiPoint).properties);
+                print((geojson as GeoJsonMultiPoint).geometry?.type);
+                print((geojson as GeoJsonMultiPoint).geometry?.coordinates);
+              }
+
+              // Other types ...
+            });
+
+          }
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
 }
