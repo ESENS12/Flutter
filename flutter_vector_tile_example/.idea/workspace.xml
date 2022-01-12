@@ -4,13 +4,24 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0078e0c8-84a1-4021-bb77-9ebcd02dd971" name="Default Changelist" comment="initial commit" />
+    <list default="true" id="0078e0c8-84a1-4021-bb77-9ebcd02dd971" name="Default Changelist" comment="initial commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/kotlin/kr/esens/flutter_vector_tile_example/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/kotlin/kr/esens/flutter_vector_tile_example/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_vector_tile_example.iml" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_vector_tile_example.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/f58ed05f7a6fba8f3451773989665e4b.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/f58ed05f7a6fba8f3451773989665e4b.cache.dill.track.dill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../play_ground/ios/Flutter/Debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../play_ground/ios/Flutter/Debug.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../play_ground/ios/Flutter/Release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../play_ground/ios/Flutter/Release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../play_ground/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../play_ground/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../play_ground/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../play_ground/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simple_tabbar/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../simple_tabbar/lib/main.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/esens/.android/avd/Galaxy_S4_API_22.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/esens/.android/avd/FoldAPI_31.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -28,7 +39,10 @@
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/data" />
-    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="flutter.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -63,12 +77,20 @@
       <option name="project" value="LOCAL" />
       <updated>1636708794750</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add Sample">
+      <created>1637038968370</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1637038968370</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="Add Sample" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Sample" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
