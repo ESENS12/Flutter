@@ -1,0 +1,4 @@
+#Mon Jan 17 17:06:34 KST 2022
+base.0=/Users/esens/Flutter/flutter_getx_example/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
