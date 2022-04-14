@@ -48,6 +48,7 @@ class FormApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("formApp build called");
     return MaterialApp(
       title: 'Form Samples',
       theme: ThemeData(primarySwatch: Colors.teal),
