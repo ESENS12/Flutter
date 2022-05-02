@@ -14,11 +14,9 @@ const catalogLength = 200;
 ///
 /// It will fetch a page of items from [startingIndex].
 Future<ItemPage> fetchPage(int startingIndex) async {
-  // We're emulating the delay inherent to making a network call.
+
   await Future<void>.delayed(const Duration(milliseconds: 500));
 
-  // If the [startingIndex] is beyond the bounds of the catalog, an
-  // empty page will be returned.
   if (startingIndex > catalogLength) {
     return ItemPage(
       items: [],
@@ -27,7 +25,6 @@ Future<ItemPage> fetchPage(int startingIndex) async {
     );
   }
 
-  // The page of items is generated here.
   return ItemPage(
     items: List.generate(
         itemsPerPage,
@@ -37,7 +34,6 @@ Future<ItemPage> fetchPage(int startingIndex) async {
               price: 50 + (index * 42) % 200,
             )),
     startingIndex: startingIndex,
-    // Returns `false` if we've reached the [catalogLength].
     hasNext: startingIndex + itemsPerPage < catalogLength,
   );
 }

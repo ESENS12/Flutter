@@ -31,8 +31,7 @@ class ItemTile extends StatelessWidget {
   }
 }
 
-/// This is the widget responsible for building the "still loading" item
-/// in the list (represented with "..." and a crossed square).
+
 class LoadingItemTile extends StatelessWidget {
   const LoadingItemTile({Key? key}) : super(key: key);
 
