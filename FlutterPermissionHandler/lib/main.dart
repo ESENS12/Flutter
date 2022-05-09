@@ -4,11 +4,26 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
+import 'package:flutter_permission_handler/permission_view.dart';
 
 void main() {
-  runApp(const MyApp());
+  // Use Custom Permission UI
+  runApp(MyCustomPermissionApp());
+
+  // Use Permission_handler (default UI)
+  //runApp(MyApp());
 }
 
+class MyCustomPermissionApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return MaterialApp(
+      title: "Custom Permission App",
+      home:CustomPermissionView(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
