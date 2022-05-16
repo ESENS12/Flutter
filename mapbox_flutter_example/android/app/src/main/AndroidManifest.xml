@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kr.esens.mapbox_flutter_example">
-   <application
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
         android:label="mapbox_flutter_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
